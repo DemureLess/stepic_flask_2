@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    {% if booking_day and  booking_hour and not booking %}
+
+        <div class="row mt-5">
+        <div class="col-6 offset-3">
+
+            <form action="/booking/{{ teacher.id }}" method="POST" class="card mb-3" >
+                  <div class="card-body text-center pt-5">
+                    <img src="{{ teacher.picture|default(image_default)}}" class="mb-3" width="95" alt="">
+                    <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+                    <p class="my-1">Запись на пробный урок</p>
+                    <p class="my-1">{{ day_of_week[booking_day] }}, {{ booking_hour }} </p>
+                  </div>
+
+                   <hr/>
+
+                   <div class="card-body mx-3">
+                       <p class="mb-1 mt-2">Вас зовут</p>
+                       <input class="form-control" type="text" name="first_name" placeholder="" required>
+                       <p class="mb-1 mt-2">Ваш телефон</p>
+                       <input class="form-control" type="text" name="phone" placeholder="" required>
+                       <input type="hidden" name="day" value="{{ booking_day }}">
+                       <input type="hidden" name="hour" value="{{ booking_hour }}">
+                       <input type="hidden" name="teacher_id" value="{{ teacher.id }}">
+                       <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
+                   </div>
+
+                </form>
+
+        </div>
+     </div>
+
+     {% elif booking %}
+        <div class="row mt-5">
+         <div class="col-6 offset-3">
+                  <div class="card-body text-center pt-5">
+                    <img src="{{ teacher.picture|default(image_default)}}" class="mb-3" width="95" alt="">
+                    <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+                    <p class="my-1">Уважаемый {{ booking.first_name }}, ваша заявка принята.</p>
+                    <p class="my-1">Желаемое время: {{ day_of_week[booking.day] }}, {{ booking.hour }} - забронировано </p>
+                  </div>
+            </div>
+        </div>
+     {% else %}
+          <div class="row mt-5">
+         <div class="col-6 offset-3">
+                  <div class="card-body text-center pt-5">
+                    <img src="{{ teacher.picture|default(image_default)}}" class="mb-3" width="95" alt="">
+                    <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+                    <p class="my-1">Здравствуйте! Вы не выбрали время и день!</p>
+                      <p class="my-1">Перейдите на страницу <a href="/profile/{{ teacher.id }}">репетитора</a> </p>
+                  </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock content %}

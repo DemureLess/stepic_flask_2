@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row mt-5">
+
+    {% if message %}
+        <div class="col-6 offset-3">
+            <div class="card-body text-center pt-5">
+                <h3 class="card-title mt-4 mb-2">Уважаемый {{ message.first_name }}!</h3>
+                <p class="px-5">Сообщение для {{ teacher.name }} отправлено. <br>Репетитор свяжется с вами в ближайшее время</p>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if not message %}
+        <div class="col-6 offset-3">
+            <form action="/message/{{ teacher.url }}" class="card mb-3"  method="POST" >
+                <div class="card-body text-center pt-5">
+                    <img src="{{ teacher.picture|default(image_default)}}" class="mb-3" width="95" alt="">
+                    <h5 class="card-title mt-2 mb-2">{{ teacher.name}}</h5>
+                    <p class="my-1">Отправить сообщение</p>
+                </div>
+
+                <hr/>
+
+                <div class="card-body mx-3">
+                    <p class="mb-1 mt-2">Вас зовут</p>
+                       <input class="form-control" type="text" name="first_name" placeholder="" required>
+                       <p class="mb-1 mt-2">Ваш телефон</p>
+                       <input class="form-control" type="text" name="phone" placeholder="" required>
+                        <p class="mb-1 mt-2">Сообщение</p>
+                       <input class="form-control" type="text" name="message" placeholder="" required>
+                       <input type="submit" class="btn btn-primary btn-block mt-4" value="Отправить сообщение">
+
+                </div>
+            </form>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock content %}

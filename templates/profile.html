@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% set booking = teacher.free %}
+    {% set booking_list = ['8:00','10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'] %}
+
+        <div class="card my-5  mx-auto ">
+
+            <div class="card-body m-4">
+                <div class="row">
+                    <div class="col-5"><img src="{{ teacher.picture|default(image_default) }}" class="img-fluid"></div>
+                    <div class="col-7">
+                        <h2>{{ teacher.name }}</h2>
+                        <p>
+                            {% for teacher_goal in teacher.goals %}
+                            <span class="badge badge-secondary mr-2">
+                            {{ goals[teacher_goal] | replace(goals[teacher_goal] | list | first, "") }} </span>
+                            {% endfor %}
+
+                            Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час
+                            </p>
+                        <p>{{ teacher.about}} </p>
+                            <br> <br>
+                        <a href="/message/{{ teacher.url }}" class="btn btn-outline-secondary btn-sm ">Отправить сообщение</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body  m-4">
+                <h5 class="mb-4">Записаться на пробный урок</h5>
+                <table class="table">
+
+                    <tr>
+                        <th>#</th>
+                        <th>Пн</th>
+                        <th>Вт</th>
+                        <th>Ср</th>
+                        <th>Чт</th>
+                        <th>Пт</th>
+                        <th>Сб</th>
+                        <th>Вс</th>
+                    </tr>
+
+                {% for booking_hour in booking_list %}
+                    <tr>
+                        <td><span class="btn">{{ booking_hour }}</span></td>
+                        {% for day, hour in  booking.items() %}
+                            {% if hour[booking_hour] == True %}
+                                {% set booking_class ='success' %}
+                                {% set booking_url = '/booking/'~teacher.id~'?day='~day~'&hour='~booking_hour %}
+                                {% set booking_title = 'Время свободно - жмите!'  %}
+                            {% else %}
+                                {% set booking_class ='secondary' %}
+                                {% set booking_url = '#' %}
+                                {% set booking_title = 'Время занято'  %}
+                             {% endif %}
+
+                            <td><a href="{{ booking_url }}" class="btn btn-sm btn-{{ booking_class }}" title="{{ booking_title }}">{{ booking_hour}}</a></td>
+                         {% endfor %}
+                    </tr>
+
+                {% endfor %}
+
+                </table>
+            </div>
+
+
+{% endblock content %}

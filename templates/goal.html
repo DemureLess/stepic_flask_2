@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if goal in goals %}
+{% set teacher_goals = goals[goal] %}
+{% endif %}
+
+
+
+    <h2 class="h1 text-center w-50 mx-auto mt-1 py-5 mb-4"><strong>{{ teacher_goals|list|first }}<br/>Преподаватели <br/> {{ teacher_goals|lower|replace(teacher_goals|list|first, "")}} </strong></h2>
+
+    <div class="w-75 m-auto">
+
+{% for teacher in teachers|named_dic_to_noname|sort(attribute='rating') %}
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3"><img src="{{ teacher.picture|default(image_default) }}" class="img-fluid"></div>
+                    <div class="col-9">
+                        <p class="float-right">Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price}}</p>
+                        <h5>{{ teacher.name }}</h5>
+                        <p>{{ teacher.about }}</p>
+                         <a href="/profile/{{ teacher.url }}" class="btn btn-primary btn-sm mr-3">Записаться на пробный урок</a>
+                        <a href="/message/{{ teacher.url }}" class="btn btn-outline-primary btn-sm">Отправить сообщение</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ {% endfor %}
+
+ {% endblock content %}

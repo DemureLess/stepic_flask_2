@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2 class="h1 text-center w-50 mx-auto mt-4 py-5"><strong>Найдите идеального репетитора английского, занимайтесь онлайн</strong></h2>
+
+
+    <div class="text-center mb-5">
+        <div class="btn-group mx-auto mb-0" role="group" aria-label="Basic example">
+            {% for url, title_url in goals.items() %}
+                <a href="/goals/{{ url }}"  type="button" class="btn btn-outline-secondary">{{ title_url }}</button></a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h5 class="text-center mb-5">Свободны прямо сейчас</h5>
+
+    <div class="w-75 m-auto">
+
+        {% for teacher in teachers | my_random_teachers(quantity)|named_dic_to_noname  %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3"><img src="{{ teacher.picture|default(image_default) }}" class="img-fluid"></div>
+                    <div class="col-9">
+                        <p class="float-right">Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price}} / час</p>
+                        <h5>{{ teacher.name }}</h5>
+                        <p>{{ teacher.about }}</p>
+                        <a href="/profile/{{ teacher.url }}" class="btn btn-primary btn-sm mr-3">Записаться на пробный урок</a>
+                        <a href="/message/{{ teacher.url }}" class="btn btn-outline-primary btn-sm">Отправить сообщение</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+    </div>
+
+{% endblock content %}
