@@ -1,23 +1,20 @@
-from flask import Flask, request, render_template
 import json
-import data
 import random
 from datetime import datetime
+
+from flask import Flask, request, render_template
+
+import data
 
 goals = data.goals
 teachers = data.teachers
 
 for id in teachers:
-     teachers[id]['url'] = id  # устанавливаем в качестве url - id учителя
-     teachers[id]['id'] = id  # так же, добавляем id учителя "внутрь словаря"
-
-# with open('teachers.json', 'r', encoding='utf-8') as f:
-#     contents = f.read()
-#     teachers = json.loads(contents)
-#     print(teachers)
+    teachers[id]['url'] = id  # устанавливаем в качестве url - id учителя
+    teachers[id]['id'] = id  # так же, добавляем id учителя "внутрь словаря"
 
 #
-# Чтение данных из файла, и обогощения словаря id, url
+# Чтение данных из файла data.py. Обогощения словаря id, url, сохранение в json.
 #
 # teachers = data.teachers
 # for id in teachers:
@@ -25,8 +22,16 @@ for id in teachers:
 #     teachers[id]['id'] = id  # так же, добавляем id учителя "внутрь словаря"
 #
 #  with open('teachers.json', 'w', encoding='utf-8') as f:
-#      save_teachers = json.dumps(teachers, ensure_ascii=True)
+#      save_teachers = json.dumps(teachers)
 #      f.write(save_teachers)
+#
+# Использование json в качестве словаря данных
+#
+# with open('teachers.json', 'r', encoding='utf-8') as f:
+#     contents = f.read()
+#     teachers = json.loads(contents)
+#
+
 
 app = Flask(__name__)
 
@@ -39,9 +44,7 @@ def inject_goals():
 
 @app.template_filter('my_random_teachers')
 def my_random(random_teachers, quantity=0):
-
     # Кастомный фильтр, для рандомного вывода репетиторов
-
     keys = list(random_teachers)
     random.shuffle(keys)
 
@@ -138,7 +141,6 @@ def search_teacher():
 
 @app.route('/booking/<int:id>', methods=['POST', 'GET'])
 def booking_teacher(id):
-
     # Шаблоне вывода реализовано три состояния:
     # 1) Если обратиться напрямую /booking/12 - напомнит пользователю что не выбрано время. Педложит перейти в профиль
     # 2) Если в url есть параметры, выведет их в форме
