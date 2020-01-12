@@ -67,7 +67,7 @@ def my_named_dic_to_noname_dic(named_dic):
 
 
 @app.route('/', methods=['GET'])
-def main_teachers_count():
+def index():
     # Предусмотрено состояние вывода всех репетиторов
     teachers_count = request.args.get('teachers_count')
     if teachers_count == 'all':
@@ -133,7 +133,7 @@ def lead_request():
 
 @app.route('/search', methods=['GET'])
 def search_teacher():
-    # страница зарезервирована и доступна по адресу /search?s=123
+    # страница отдает только запрос пользователя
     search_sting = request.args.get('s')
 
     return render_template('search.html', search_sting=search_sting)

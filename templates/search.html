@@ -8,9 +8,14 @@
                     <div class="col-7">
                         <h2>Скоро тут будет поиск</h2>
                         <p></p>
-                        <p>Вы только что искали: <b>{{ search_sting }}</b></p>
+                        <p>Сейчас - тут только строка вашего поиска: <b>{{ search_sting }}</b></p>
                             <br> <br>
-                        <p>Попробуйте еще раз</p>
+                        <p>Другого нет в ТЗ :-)</p>
+                        <p>Но это работает</p>
+                        <form class="form-inline my-2"  action="{{ url_for('search_teacher') }}" method=["GET"]>
+                            <input class="form-control-sm" type="search" placeholder="Попробовать еще" name="s" value="">
+                             <button class="btn btn-dark btn-sm" type="submit">Поиск</button>
+                        </form>
 
 
                     </div>
