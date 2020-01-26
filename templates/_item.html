@@ -1,0 +1,17 @@
+{% for teacher in teachers %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3"><img src="{{ teacher.picture|default(image_default) }}" class="img-fluid"></div>
+                <div class="col-9">
+                    <p class="float-right">Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }}</p>
+                    <h5>{{ teacher.name }}</h5>
+                    <p>{{ teacher.about }}</p>
+                    <a href="/profile/{{ teacher.slug }}" class="btn btn-primary btn-sm mr-3">Записаться на пробный
+                        урок</a>
+                    <a href="/message/{{ teacher.slug }}" class="btn btn-outline-primary btn-sm">Отправить сообщение</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

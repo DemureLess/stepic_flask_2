@@ -1,79 +1,68 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    {{ "Заявка на подбор учителя английского языка" }}
+{% endblock title %}
+
 {% block content %}
 
-    <div class="row mt-5">
+<div class="row mt-5">
 
-        {% if thank_page %}
-            <div class="col-6 offset-3">
-                  <div class="card-body text-center pt-5">
-                    <h3 class="card-title mt-4 mb-2">Уважаемый {{ thank_page.first_name }}!</h3>
-                    <p class="px-5">Мы уже приступили к поиску репетитора. Ожидайте дополнительной информации по номеру: <br><b>{{ thank_page.phone }}</b></p>
-                  </div>
+    {% if form.username.data %}
+        <div class="col-6 offset-3">
+            <div class="card-body text-center pt-5">
+                <h3 class="card-title mt-4 mb-2">Уважаемый {{ form.username.data }}!</h3>
+                <p class="px-5">Мы уже приступили к поиску репетитора. Ожидайте дополнительной информации по номеру:
+                    <br><b>{{ form.phone.data }}</b></p>
             </div>
-       {% endif %}
+        </div>
+    {% endif %}
 
-        {% if not thank_page %}
-            <div class="col-6 offset-3">
-                <form action="/request" method="POST" class="card mb-3" >
-                    <div class="card-body text-center pt-5">
-                        <h3 class="card-title mt-4 mb-2">Подбор преподавателя</h3>
-                        <p class="px-5">Напишите, чего вам нужно  и мы подберем отличных ребят</p>
+    {% if not form.username.data %}
+    <div class="col-6 offset-3">
+        <form action="/request" method="POST" class="card mb-3">
+            {{ form.csrf_token }}
+            <div class="card-body text-center pt-5">
+                <h3 class="card-title mt-4 mb-2">Подбор преподавателя</h3>
+                <p class="px-5">Напишите, чего вам нужно и мы подберем отличных ребят</p>
+            </div>
+
+            <hr/>
+
+            <div class="card-body mx-3">
+                <div class="row">
+                    <div class="col">
+                        <p>Какая цель занятий?</p>
+                        <div class="form-check ">
+                            {{ form.booking_goal() }}
+                        </div>
                     </div>
 
-                    <hr/>
-
-                    <div class="card-body mx-3">
-                        <div class="row">
-                            <div class="col">
-                                <p>Какая цель занятий?</p>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input" name="goal" value="travel"> Для путешествий
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input" name="goal" value="learn"> Для школы
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input" name="goal" value="work"> Для работы
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input"name="goal" value="move"> Для переезда
-                                   </div>
-                            </div>
-
-                            <div class="col">
-                                   <p>Сколько времени есть?</p>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input" name="time" value="1-2"> 1-2 часа в неделю
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio"class="form-check-input" name="time" value="3-5"> 3-5 часов в неделю
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input"name="time" value="5-7"> 5-7 часов в неделю
-                                   </div>
-                                   <div class="form-check ">
-                                    <input type="radio" class="form-check-input"name="time" value="7-10"> 7-10 часов в неделю
-                                   </div>
-                               </div>
-                            </div>
+                    <div class="col">
+                        <p>Сколько времени есть?</p>
+                        <div class="form-check ">
+                            {{ form.booking_time(class="form-check-input") }}
                         </div>
+                    </div>
+                </div>
 
-                       <hr>
+                <hr>
 
-                       <div class="card-body mx-3">
-                           <p class="mb-1 mt-2">Вас зовут</p>
-                           <input class="form-control" name="first_name" type="text" placeholder="Напишите свое имя" required>
-                           <p class="mb-1 mt-2">Ваш телефон</p>
-                           <input class="form-control" name="phone" type="tel" placeholder="Введите номер телефона" required>
-                           <input type="submit" class="btn btn-primary mt-4" value="Найдите мне преподавателя">
-                       </div>
+                <div class="card-body mx-3">
+                    <p class="mb-1 mt-2">Вас зовут</p>
+                    {{ form.username(class="form-control", type="text", placeholder="Напишите свое имя") }}
+                    <p class="mb-1 mt-2">Ваш телефон</p>
+                    {{ form.phone(class="form-control", type="tel", placeholder="Введите номер телефона") }}
 
-                    </form>
-            </div>
+                    {{ form.send_form(value="Найдите мне преподавателя", type="submit", class="btn btn-primary btn-block
+                    mt-4") }}
 
-     {% endif %}
+                </div>
 
-     </div>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock content %}
