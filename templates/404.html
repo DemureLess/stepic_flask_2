@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Page not found - (404)
+{% endblock %}
+
+
+{% block content %}
+    <div class="card-body m-4">
+        <div class="row">
+            <div class="col-5"><img src="{{ image_default }}" class="img-fluid"></div>
+            <div class="col-7">
+                <h2>Ничего не нашлось</h2>
+                <p></p>
+                <p>начните с <a href="{{ url_for('index') }}"><b>главной страницы</b></a></p>
+                <p>или воспользуйтесь поиском</p>
+                <form class="form-inline my-2" action="{{ url_for('search_teacher') }}" method=["GET"]>
+                    <input class="form-control-sm" type="search" placeholder="Попробовать еще" name="s" value="">
+                    <button class="btn btn-dark btn-sm" type="submit">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

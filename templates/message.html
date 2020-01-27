@@ -1,45 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="row mt-5">
 
-<div class="row mt-5">
-
-    {% if message %}
-        <div class="col-6 offset-3">
-            <div class="card-body text-center pt-5">
-                <h3 class="card-title mt-4 mb-2">Уважаемый {{ message.first_name }}!</h3>
-                <p class="px-5">Сообщение для {{ teacher.name }} отправлено. <br>Репетитор свяжется с вами в ближайшее время</p>
-            </div>
-        </div>
-    {% endif %}
-
-
-    {% if not message %}
-        <div class="col-6 offset-3">
-            <form action="/message/{{ teacher.url }}" class="card mb-3"  method="POST" >
+        {% if form.username.data %}
+            <div class="col-6 offset-3">
                 <div class="card-body text-center pt-5">
-                    <img src="{{ teacher.picture|default(image_default)}}" class="mb-3" width="95" alt="">
-                    <h5 class="card-title mt-2 mb-2">{{ teacher.name}}</h5>
-                    <p class="my-1">Отправить сообщение</p>
+                    <h3 class="card-title mt-4 mb-2">Уважаемый {{ form.username.data }}!</h3>
+                    <p class="px-5">Сообщение для {{ teacher.name }} отправлено. <br>Репетитор свяжется с вами в
+                        ближайшее время</p>
                 </div>
+            </div>
+        {% endif %}
 
-                <hr/>
 
-                <div class="card-body mx-3">
-                    <p class="mb-1 mt-2">Вас зовут</p>
-                       <input class="form-control" type="text" name="first_name" placeholder="" required>
-                       <p class="mb-1 mt-2">Ваш телефон</p>
-                       <input class="form-control" type="text" name="phone" placeholder="" required>
+        {% if not form.username.data %}
+            <div class="col-6 offset-3">
+                <form action="/message/{{ teacher.slug }}" class="card mb-3" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="card-body text-center pt-5">
+                        <img src="{{ teacher.picture|default(image_default) }}" class="mb-3" width="95" alt="">
+                        <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+                        <p class="my-1">Отправить сообщение</p>
+                    </div>
+
+                    <hr/>
+
+                    <div class="card-body mx-3">
+                        <p class="mb-1 mt-2">Вас зовут</p>
+                        {{ form.username(class="form-control", type="text", placeholder="Напишите свое имя") }}
+
+                        <p class="mb-1 mt-2">Ваш телефон</p>
+                        {{ form.phone(class="form-control", type="tel", placeholder="Введите номер телефона") }}
+
                         <p class="mb-1 mt-2">Сообщение</p>
-                       <input class="form-control" type="text" name="message" placeholder="" required>
-                       <input type="submit" class="btn btn-primary btn-block mt-4" value="Отправить сообщение">
+                        {{ form.message(class="form-control", type="text", placeholder="Введите сообщение") }}
 
-                </div>
-            </form>
-        </div>
+                        {{ form.send_form(value="Отправить сообщение", type="submit", class="btn btn-primary btn-block mt-4") }}
 
-    {% endif %}
 
-</div>
+                    </div>
+                </form>
+            </div>
+
+        {% endif %}
+
+    </div>
 
 {% endblock content %}
